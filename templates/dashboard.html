@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock title %}
+{% block body %}
+{% if user.is_authenticated %}
+<div class="row col-lg-12">
+  <div class="col-lg-6">
+    <div class="container-fluid tm-content-container">
+      <ul class="cd-hero-slider mb-0 py-5">
+        <li class="px-3" data-page-no="1">
+          <div class="page-width-1 page-left">
+            <div class="position-relative tm-border-top tm-border-bottom intro-container">
+              <div class="intro-left tm-bg-dark">
+                <h2 class="mb-4">DeepFake Video Detection</h2>
+                <div class="row">
+                  <form action="" method="POST" class="contact-form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="input-group tm-mb-30">
+                      <input name="uploaded_video" type="file"
+                        class="form-control rounded-0 border-top-0 border-end-0 border-start-0"
+                        placeholder="Upload Video" accept="video/*" required>
+                    </div>
+
+                    <div class="input-group justify-content-end">
+                      <button type="submit" name="video_upload" class="btn btn-primary tm-btn-pad-2">Submit</button>
+                    </div>
+                  </form>
+                </div>
+                <div class="circle intro-circle-1"></div>
+                <div class="circle intro-circle-2"></div>
+                <div class="circle intro-circle-3"></div>
+                <div class="circle intro-circle-4"></div>
+              </div>
+            </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="container-fluid tm-content-container">
+      <ul class="cd-hero-slider mb-0 py-5">
+        <li class="px-3" data-page-no="1">
+          <div class="page-width-1 page-left">
+            <div class="position-relative tm-border-top tm-border-bottom intro-container">
+              <div class="intro-left tm-bg-dark">
+                <h2 class="mb-4">DeepFake Image Detection</h2>
+                <div class="row">
+                  <form action="" method="POST" class="contact-form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="input-group tm-mb-30">
+                      <input name="image" type="file"
+                        class="form-control rounded-0 border-top-0 border-end-0 border-start-0"
+                        placeholder="Upload Image" accept="image/*" required>
+                    </div>
+
+                    <div class="input-group justify-content-end">
+                      <button type="submit" name="image_upload" class="btn btn-primary tm-btn-pad-2">Submit</button>
+                    </div>
+                  </form>
+                </div>
+                <div class="circle intro-circle-1"></div>
+                <div class="circle intro-circle-2"></div>
+                <div class="circle intro-circle-3"></div>
+                <div class="circle intro-circle-4"></div>
+              </div>
+            </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="row col-lg-12">
+  <form action="" method="post">
+    {% csrf_token %}
+    <div class="input-group justify-content-center">
+      <button type="submit" name="live_cam" class="btn btn-primary tm-btn-pad-2">Live Camera</button>
+  </form>
+</div>
+</div>
+<div class="row col-lg-12">
+  {% if video %}
+  <h3>Detected Video: </h3>
+  <video style="height: 500px; width: auto;" controls>
+    <source src="{{ video }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  {% endif %}
+  {% if image %}
+  <h3>Detected Image: {{ label }}</h3>
+  <img src="{{ image }}" alt="Detected Image" style="height: 500px; width: auto;">
+  {% endif %}
+</div>
+<div class="loader-overlay" id="loaderOverlay">
+  <div class="text-center">
+    <div class="loader-spinner mx-auto mb-3"></div>
+    <div style="font-size: 1.2rem; font-weight: bold; color: #333;">Video Processing...</div>
+  </div>
+</div>
+
+<style>
+  .loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.85);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .loader-spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #007bff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+<script>
+  const form = document.querySelector('.contact-form');
+  const loader = document.getElementById('loaderOverlay');
+
+  form.addEventListener('submit', function () {
+    loader.style.display = 'flex';
+  });
+</script>
+{% endif %}
+{% endblock body %}
